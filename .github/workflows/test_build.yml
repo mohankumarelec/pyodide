@@ -32,7 +32,7 @@ jobs:
           path: |
             emsdk/
             ~/.emscripten_cache/
-          key: emsdk-${{ runner.os }}-${{ hashFiles('emsdk/**', 'emsdk/Makefile') }}
+          key: emsdk-${{ runner.os }}-${{ hashFiles('emsdk/Makefile') }}
           restore-keys: |
             emsdk-${{ runner.os }}-
 
@@ -47,7 +47,7 @@ jobs:
           path: |
             cpython/
             ~/.cache/pip/
-          key: cpython-${{ runner.os }}-${{ hashFiles('cpython/**', 'cpython/Makefile') }}
+          key: cpython-${{ runner.os }}-${{ hashFiles('cpython/Makefile') }}
           restore-keys: |
             cpython-${{ runner.os }}-
 
