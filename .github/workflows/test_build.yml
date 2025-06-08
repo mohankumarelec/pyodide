@@ -6,34 +6,36 @@ on:
 jobs:
   build_docker:
     runs-on: ubuntu-24.04
+    container:
+      image: pyodide/pyodide-env:20250528-chrome136-firefox138-py313
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-          cache: 'pip'
+      # - name: Setup Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.13'
+      #     cache: 'pip'
 
-      - name: Install Dependencies
-        run: |
-          wget https://mirrors.ocf.berkeley.edu/gnu/autoconf/autoconf-2.72.tar.xz
-          tar -xf autoconf-2.72.tar.xz
-          cd autoconf-2.72
-          ./configure
-          make
-          sudo make install
-          cd ..
-          rm -rf autoconf-2.72*
-          wget https://mirrors.ocf.berkeley.edu/gnu/libtool/libtool-2.5.4.tar.xz
-          tar -xf libtool-2.5.4.tar.xz
-          cd libtool-2.5.4
-          ./configure
-          make
-          sudo make install
-          cd ..
-          rm -rf libtool-2.5.4*
+      # - name: Install Dependencies
+      #   run: |
+      #     wget https://mirrors.ocf.berkeley.edu/gnu/autoconf/autoconf-2.72.tar.xz
+      #     tar -xf autoconf-2.72.tar.xz
+      #     cd autoconf-2.72
+      #     ./configure
+      #     make
+      #     sudo make install
+      #     cd ..
+      #     rm -rf autoconf-2.72*
+      #     wget https://mirrors.ocf.berkeley.edu/gnu/libtool/libtool-2.5.4.tar.xz
+      #     tar -xf libtool-2.5.4.tar.xz
+      #     cd libtool-2.5.4
+      #     ./configure
+      #     make
+      #     sudo make install
+      #     cd ..
+      #     rm -rf libtool-2.5.4*
 
       # - name: Install Dependencies
       #   run: |
@@ -44,31 +46,31 @@ jobs:
           autoconf --version
           libtool --version
 
-      - name: Cache emsdk
-        id: cache-emsdk
-        uses: actions/cache@v3
-        with:
-          path: |
-            emsdk/
-            ~/.emscripten_cache/
-          key: emsdk-${{ runner.os }}-${{ hashFiles('emsdk/Makefile') }}
-          restore-keys: |
-            emsdk-${{ runner.os }}-
+      # - name: Cache emsdk
+      #   id: cache-emsdk
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       emsdk/
+      #       ~/.emscripten_cache/
+      #     key: emsdk-${{ runner.os }}-${{ hashFiles('emsdk/Makefile') }}
+      #     restore-keys: |
+      #       emsdk-${{ runner.os }}-
 
       - name: Setup emsdk
-        if: steps.cache-emsdk.outputs.cache-hit != 'true'
+        # if: steps.cache-emsdk.outputs.cache-hit != 'true'
         run: make -C emsdk
 
-      - name: Cache cpython
-        id: cache-cpython
-        uses: actions/cache@v3
-        with:
-          path: |
-            cpython/
-            ~/.cache/pip/
-          key: cpython-${{ runner.os }}-${{ hashFiles('cpython/Makefile') }}
-          restore-keys: |
-            cpython-${{ runner.os }}-
+      # - name: Cache cpython
+      #   id: cache-cpython
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #       cpython/
+      #       ~/.cache/pip/
+      #     key: cpython-${{ runner.os }}-${{ hashFiles('cpython/Makefile') }}
+      #     restore-keys: |
+      #       cpython-${{ runner.os }}-
 
       - name: Setup cpython
         # if: steps.cache-cpython.outputs.cache-hit != 'true'
