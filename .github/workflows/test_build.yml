@@ -10,6 +10,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: List Versions
+        run: |
+          echo "Python version:"
+          python3 --version
+          echo "Node.js version:"
+          node --version
+          echo "Python version:"
+          python3.12 --version
+          echo "Python version:"
+          python3.13 --version
+
       - name: Cache emsdk
         id: cache-emsdk
         uses: actions/cache@v3
