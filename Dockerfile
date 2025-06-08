@@ -131,5 +131,8 @@ RUN if [ $CHROME_VERSION = "latest" ]; \
   && echo "Using Chrome version: $(google-chrome --version)" \
   && echo "Using Chrome Driver version: $(chromedriver --version)"
 
+COPY . /src
+RUN make -C emsdk
+RUN make -C cpython
 CMD ["/bin/sh"]
 WORKDIR /src
