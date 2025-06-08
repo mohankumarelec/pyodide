@@ -7,7 +7,7 @@ jobs:
   build_docker:
     runs-on: ubuntu-24.04
     container:
-      image: pyodide/pyodide-env:20250528-chrome136-firefox138-py313
+      image: pyodide/pyodide-env:20250311-chrome134-firefox136-py313
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
