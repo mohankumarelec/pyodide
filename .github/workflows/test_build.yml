@@ -16,14 +16,14 @@ jobs:
           python-version: '3.13'
           cache: 'pip'
 
+      # - name: Install Dependencies
+      #   run: |
+      #     apt-get install -y asciidoc
+
       - name: List Versions
         run: |
-          echo "Python version:"
-          python3 --version
-          echo "Node.js version:"
-          node --version
-          echo "Python version:"
-          python3.13 --version
+          autoconf --version
+          libtool --version
 
       - name: Cache emsdk
         id: cache-emsdk
@@ -52,5 +52,5 @@ jobs:
             cpython-${{ runner.os }}-
 
       - name: Setup cpython
-        if: steps.cache-cpython.outputs.cache-hit != 'true'
+        # if: steps.cache-cpython.outputs.cache-hit != 'true'
         run: make -C cpython
