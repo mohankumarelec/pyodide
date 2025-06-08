@@ -1,0 +1,41 @@
+name: test-build
+on:
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  build_docker:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache emsdk
+        id: cache-emsdk
+        uses: actions/cache@v3
+        with:
+          path: |
+            emsdk/
+            ~/.emscripten_cache/
+          key: emsdk-${{ runner.os }}-${{ hashFiles('emsdk/**', 'emsdk/Makefile') }}
+          restore-keys: |
+            emsdk-${{ runner.os }}-
+
+      - name: Setup emsdk
+        if: steps.cache-emsdk.outputs.cache-hit != 'true'
+        run: make -C emsdk
+
+      - name: Cache cpython
+        id: cache-cpython
+        uses: actions/cache@v3
+        with:
+          path: |
+            cpython/
+            ~/.cache/pip/
+          key: cpython-${{ runner.os }}-${{ hashFiles('cpython/**', 'cpython/Makefile') }}
+          restore-keys: |
+            cpython-${{ runner.os }}-
+
+      - name: Setup cpython
+        if: steps.cache-cpython.outputs.cache-hit != 'true'
+        run: make -C cpython
